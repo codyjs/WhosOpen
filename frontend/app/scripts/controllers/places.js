@@ -14,12 +14,22 @@ function milesToMeters(miles){
 
 var myapp = angular.module('frontendApp');
 
-myapp.controller('PlacesCtrl', function ($scope, ngGPlacesAPI) {
+myapp.controller('PlacesCtrl', function ($scope, ngGPlacesAPI, geolocation) {
   $scope.radius = 1;
-  ngGPlacesAPI.nearbySearch({latitude:29.8890110, longitude:-97.9195770, openNow:true, types:['restaurant'], radius: milesToMeters($scope.radius)}).then(function(data){
+
+  // Initial query
+  geolocation.getLocation().then(function(data){
+    console.log(data);
+    ngGPlacesAPI.nearbySearch({latitude:data.coords.latitude, longitude:data.coords.longitude, openNow:true, types:['restaurant'], radius: milesToMeters($scope.radius)}).then(function(data){
       $scope.places = data;
       console.log(data);
+    },
+    function(reason) { // Promise rejected
+      console.log(reason);
+    });
   });
+
+  // Button press
   $scope.getPlaces = function(){
     $scope.error='';
     $scope.places='';
@@ -28,9 +38,16 @@ myapp.controller('PlacesCtrl', function ($scope, ngGPlacesAPI) {
       $scope.error = 'ERROR: Radius Exceeded!';
       return;
     }
-    ngGPlacesAPI.nearbySearch({latitude:29.8890110, longitude:-97.9195770, openNow:true, types:['restaurant'], radius: radiusMeters}).then(function(data){
-      $scope.places = data;
+
+    geolocation.getLocation().then(function (data){
       console.log(data);
+      ngGPlacesAPI.nearbySearch({latitude:data.coords.latitude, longitude:data.coords.longitude, openNow:true, types:['restaurant'], radius: milesToMeters($scope.radius)}).then(function(data){
+        $scope.places = data;
+        console.log(data);
+      },
+      function(reason) { // Promise rejected
+        console.log(reason);
+      });
     });
   };
 });
