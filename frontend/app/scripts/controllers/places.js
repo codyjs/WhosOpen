@@ -16,6 +16,10 @@ var myapp = angular.module('frontendApp');
 
 myapp.controller('PlacesCtrl', function ($scope, ngGPlacesAPI) {
   $scope.radius = 1;
+  ngGPlacesAPI.nearbySearch({latitude:29.8890110, longitude:-97.9195770, openNow:true, types:['restaurant'], radius: milesToMeters($scope.radius)}).then(function(data){
+      $scope.places = data;
+      console.log(data);
+  });
   $scope.getPlaces = function(){
     $scope.error='';
     $scope.places='';

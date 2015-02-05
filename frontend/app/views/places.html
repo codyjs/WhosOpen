@@ -8,7 +8,7 @@
               <th>Local Address</th>
           </thead>
           <tbody ng-repeat="place in places">
-              <tr><td>{{place.name}}</td>
+              <tr><td><a target="_blank" href="https://www.google.com/maps/search/{{place.vicinity}} {{place.name}}">{{place.name}}</a></td>
                   <td>{{place.vicinity}}</td>
               </tr>
           </tbody>
