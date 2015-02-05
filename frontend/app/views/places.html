@@ -1,5 +1,15 @@
 <div ng-controller="PlacesCtrl">
-  <div ng-repeat="place in places">
-    {{place}}
+  <div class="jumbotron">
+      <table class="table">
+          <thead>
+              <th>Restaurant</th>
+              <th>Local Address</th>
+          </thead>
+          <tbody ng-repeat="place in places">
+              <tr><td>{{place.name}}</td>
+                  <td>{{place.vicinity}}</td>
+              </tr>
+          </tbody>
+      </table>
   </div>
 </div>

@@ -17,22 +17,19 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
+    'ngGPlaces'
   ])
-  .config(function ($routeProvider, $httpProvider) {
+  .config(function ($routeProvider, ngGPlacesAPIProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
-      })
-      .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl'
-      })
-      .when('/places', {
         templateUrl: 'views/places.html',
         controller: 'PlacesCtrl'
       })
       .otherwise({
         redirectTo: '/'
       });
+
+    ngGPlacesAPIProvider.setDefaults({
+      nearbySearchKeys: ['name', 'reference', 'vicinity', 'place_id', 'price_level', 'rating', 'types', 'photos', 'geometry'],
+    });
   });
