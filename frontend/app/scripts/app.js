@@ -17,13 +17,18 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'ngGPlaces'
+    'ngGPlaces',
+    'geolocation',
   ])
   .config(function ($routeProvider, ngGPlacesAPIProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/places.html',
         controller: 'PlacesCtrl'
+      })
+      .when('/location', {
+        templateUrl: 'views/location.html',
+        controller: 'LocationCtrl'
       })
       .otherwise({
         redirectTo: '/'
