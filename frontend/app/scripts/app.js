@@ -24,7 +24,6 @@ angular
     $routeProvider
       .when('/', {
         templateUrl: 'views/places.html',
-        controller: 'PlacesCtrl'
       })
       .otherwise({
         redirectTo: '/'
