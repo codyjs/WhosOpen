@@ -14,13 +14,22 @@ function milesToMeters(miles){
 
 var myapp = angular.module('frontendApp');
 
-myapp.controller('PlacesCtrl', function ($scope, ngGPlacesAPI, geolocation) {
-  $scope.radius = 1;
+myapp.controller('PlacesCtrl', function ($scope, $cookies, $cookieStore, ngGPlacesAPI, geolocation, settings) {
 
+   if($cookies.settings == "set")
+   {
+	  settings.radius = $cookies.radius;
+	  settings.minPrice = $cookies.minPrice;
+	  settings.maxPrice = $cookies.maxPrice;
+	  settings.minRating = $cookies.minRating;
+   }
+   
+   console.log(settings);
+   
   // Initial query
   geolocation.getLocation().then(function(data){
     console.log(data);
-    ngGPlacesAPI.nearbySearch({latitude:data.coords.latitude, longitude:data.coords.longitude, openNow:true, types:['restaurant'], radius: milesToMeters($scope.radius)}).then(function(data){
+    ngGPlacesAPI.nearbySearch({latitude:data.coords.latitude, longitude:data.coords.longitude, openNow:true, types:['restaurant'], radius: milesToMeters(settings.radius)}).then(function(data){
       $scope.places = data;
       console.log(data);
     },
@@ -41,7 +50,7 @@ myapp.controller('PlacesCtrl', function ($scope, ngGPlacesAPI, geolocation) {
 
     geolocation.getLocation().then(function (data){
       console.log(data);
-      ngGPlacesAPI.nearbySearch({latitude:data.coords.latitude, longitude:data.coords.longitude, openNow:true, types:['restaurant'], radius: milesToMeters($scope.radius)}).then(function(data){
+      ngGPlacesAPI.nearbySearch({latitude:data.coords.latitude, longitude:data.coords.longitude, openNow:true, types:['restaurant'], radius: milesToMeters(settings.radius)}).then(function(data){
         $scope.places = data;
         console.log(data);
       },
